@@ -1,1 +1,22 @@
-Hallo Pierre, ich bin Toll <3
+public class Pierre {
+  private int groesse = 10;
+  private int laenge = 20;
+  private int flaeche;
+  
+  public void MachPierreFett(int NeueGroesse; int NeueLaenge) {
+    groesse = a;
+    laenge = b;
+    flaeche = a*b;
+    
+    if (volumen >=1000) {
+      System.out.println ("Pierre ist jetzt gesättigt");
+    }
+    else {
+      System.out.println ("Pierre bracuht mehr zu essen!!");
+    }
+  }
+  
+  public int GibFlaeche(){
+    return flaeche;
+  }
+}
