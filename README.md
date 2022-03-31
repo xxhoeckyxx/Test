@@ -1,3 +1,6 @@
-# Test
-This is a little Test
-note: want to find out something new
+public class Main {
+
+    public static void main(String[] args) {
+        System.out.println("Hello World!");
+    }
+}
