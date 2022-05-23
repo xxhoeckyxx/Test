@@ -1,4 +1,9 @@
-## Ein kleiner Test zum Java programmieren
+# Spielwiese zum Programmieren lernen verschiedenster Sprachen
 
-- Hoffentlich funktioniert das hier
-- Ist ja auch nur ein kleiner Test!
+in den Ordnern:
+- RocksGam3R_Test 
+  - Programmiersprache 'C'
+- PurpleUmbrella_Test
+  - Programmiersprache 'Java'
+- FunGam3R_Test
+  - Programmiersprache 'C++'
