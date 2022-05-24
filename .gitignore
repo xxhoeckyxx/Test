@@ -1,3 +1,6 @@
 # VSCode
 .vscode
 .dist
+
+# C Compiled
+RocksGam3R_Test/build
