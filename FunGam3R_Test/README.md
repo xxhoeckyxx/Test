@@ -9,5 +9,5 @@ int void main(){
 ```
 
 ## TODO:
-- [] Testen ob der oben stehende Schnippsel überhaupt funktioniert
-- [] Weiter und tiefer in die Programmiersprache 'C++' einsteigen
+- [ ] Testen ob der oben stehende Schnippsel überhaupt funktioniert
+- [ ] Weiter und tiefer in die Programmiersprache 'C++' einsteigen
