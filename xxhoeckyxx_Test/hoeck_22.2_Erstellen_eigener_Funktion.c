@@ -84,7 +84,7 @@ int main()
         printf("Neuen %d.Streckenpunkt x,y (Abbruch mit x=-1): ", zeahler);
         checks2 = scanf("%d,%d", &x1, &y1);
         fflush(stdin);
-        if(zealer > 2)
+        if(zeahler > 2)
         {
             if((checks2 == 1) && (x1 == -1))
             {
@@ -98,6 +98,7 @@ int main()
             printf("Erneut Versuchen! Bitte %d.Streckenpunkt eingeben (x,y): ", zeahler);
             checks2 = scanf("%d,%d", &x, &y);
             fflush(stdin);
+            zeahler--;
         }
         //printf("checks2: %d & x: %d\n", checks2, x);
         // Errechnen der Strecke, bei jeder Wiederholung addieren des naechsten Punktes: 
