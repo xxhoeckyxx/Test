@@ -48,7 +48,7 @@ int main()
 			zahl++;
 		}
 		is_prim = true;
-		for(teiler = 2; teiler < (zahl/2); teiler++)
+		for(teiler = 2; teiler < (zahl); teiler++)
 		{
 			if(zahl % teiler == 0)
 			{
