@@ -1,6 +1,7 @@
 # VSCode
 .vscode
 .dist
+.DS_Store
 
 # C Compiled
 xxhoeckyxx_Test/build
