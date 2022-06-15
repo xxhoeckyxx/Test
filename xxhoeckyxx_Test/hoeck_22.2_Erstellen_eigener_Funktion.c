@@ -82,6 +82,7 @@ int main()
     do
     {
         printf("Neuen %d.Streckenpunkt x,y (Abbruch mit x=-1): ", zeahler);
+        checks2 = 0;
         checks2 = scanf("%d,%d", &x1, &y1);
         fflush(stdin);
         if(zeahler > 2)
@@ -91,8 +92,10 @@ int main()
                 // Abruchbedingung
                 break;
             }
+        } else {
+            printf("Es fehlen noch Streckenpunkte!");
         }
-        else if(checks2 != 2)
+        if(checks2 != 2)
         {
             // Pruefe ob die Eingabe richtig ist
             printf("Erneut Versuchen! Bitte %d.Streckenpunkt eingeben (x,y): ", zeahler);
