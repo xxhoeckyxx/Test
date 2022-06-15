@@ -7,3 +7,6 @@ in den Ordnern:
   - Programmiersprache 'Java'
 - FunGam3R_Test
   - Programmiersprache 'C++'
+- xxhoeckyxx_Test
+  - Programmiersprachen 'C und C++'
+  - Uebungen der TH
