@@ -25,7 +25,7 @@ int strecke(int x_1, int x_2)
 float pythagoras(float a, float b)
 {
     // Satz des Pythagoras, da rechtwinkliges Dreieck
-    float c = sqrt((a*a)+(b*b));
+    float c = sqrt(pow(a)+pow(b));
     return c;
 }
 int streckenabschnit(int var1, int var2)
@@ -59,8 +59,8 @@ int main()
             strecke_x = 0,
             strecke_y = 0,
             zeahler = 1,
-            checks1 = 0,
-            checks2 = 0;
+            check_var1 = 0,
+            check_var2 = 0;
     float   teiler_a, 
             teiler_b, 
             streckenergebnis = 0;
@@ -69,25 +69,25 @@ int main()
     printf("Strecken-Berechnungen\n");
     printf("=======================\n");
     printf("Bitte Startpunkt eingeben (x,y): ");
-    checks1 = scanf("%d,%d", &x, &y);
+    check_var1 = scanf("%d,%d", &x, &y);
     fflush(stdin);
-    if(checks1 != 2)
+    if(check_var1 != 2)
     {
         // Pruefe ob die Eingabe richtig ist
         printf("Erneut Versuchen! Bitte Startpunkt eingeben (x,y): ");
-        checks1 = scanf("%d,%d", &x, &y);
+        check_var1 = scanf("%d,%d", &x, &y);
         fflush(stdin);
     }
 
     do
     {
         printf("Neuen %d.Streckenpunkt x,y (Abbruch mit x=-1): ", zeahler);
-        checks2 = 0;
-        checks2 = scanf("%d,%d", &x1, &y1);
+        //check_var2 = 0;
+        check_var2 = scanf("%d,%d", &x1, &y1);
         fflush(stdin);
         if(zeahler > 2)
         {
-            if((checks2 == 1) && (x1 == -1))
+            if((check_var2 == 1) && (x1 == -1))
             {
                 // Abruchbedingung
                 break;
@@ -95,28 +95,28 @@ int main()
         } else {
             printf("Es fehlen noch Streckenpunkte!");
         }
-        if(checks2 != 2)
+        if(check_var2 != 2)
         {
             // Pruefe ob die Eingabe richtig ist
             printf("Erneut Versuchen! Bitte %d.Streckenpunkt eingeben (x,y): ", zeahler);
-            checks2 = scanf("%d,%d", &x, &y);
+            check_var2 = scanf("%d,%d", &x, &y);
             fflush(stdin);
             zeahler--;
         }
-        //printf("checks2: %d & x: %d\n", checks2, x);
+        //printf("check_var2: %d & x: %d\n", check_var2, x);
         // Errechnen der Strecke, bei jeder Wiederholung addieren des naechsten Punktes: 
         streckenergebnis = streckenergebnis + differenz_zweier_punkte(x, x1, y, y1);
-        //printf("checks2: %d & x: %d\n", checks2, x);
+        //printf("check_var2: %d & x: %d\n", check_var2, x);
         x = x1;
         y = y1;
         zeahler++;
     }
-    while((checks2 > 1) && (x != -1));
+    while((check_var2 > 1) && (x != -1));
     
     /*do
     {
         printf("Neuer Streckenpunkt x,y (Abbruch mit x=-1):");
-        int checks2 = scanf("%d,%d", &x1, &y1);
+        int check_var2 = scanf("%d,%d", &x1, &y1);
         fflush(stdin);
         strecke_x = strecke(x, x1);
         strecke_y = strecke(y, y1);
@@ -126,8 +126,8 @@ int main()
         x = x1;
         y = y1;
         printf("X neu: %d, Y neu: %d", x, y);
-    } while(checks2 > 1 && x1 != -1);*/
+    } while(check_var2 > 1 && x1 != -1);*/
    
-    //printf("checks2: %d & x: %d\n", checks2, x);
+    //printf("check_var2: %d & x: %d\n", check_var2, x);
     printf("\n => Die Streckenleange betreagt: %.2f Einheiten", streckenergebnis);
 }
