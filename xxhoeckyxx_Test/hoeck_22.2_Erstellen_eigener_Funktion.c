@@ -3,7 +3,7 @@
  Description: Aufgabe 22.2.1 - Leange eines Streckenzuges
      Project: Praktikum Informatik 1
       Author: hoeckch80619@th-nuernberg.de
-        Date: 15-Juni-2022
+        Date: 16-Juni-2022
 -------------------------------------------------------------------------
 */
 
