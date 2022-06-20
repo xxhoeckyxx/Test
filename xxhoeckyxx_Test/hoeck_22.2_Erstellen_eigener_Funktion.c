@@ -25,7 +25,7 @@ int strecke(int x_1, int x_2)
 float pythagoras(float a, float b)
 {
     // Satz des Pythagoras, da rechtwinkliges Dreieck
-    float c = sqrt(pow(a)+pow(b));
+    float c = sqrt(pow(a, 2.0)+pow(b, 2.0));
     return c;
 }
 int streckenabschnit(int var1, int var2)
@@ -73,7 +73,7 @@ int main()
     fflush(stdin);
     if(check_var1 != 2)
     {
-        // Pruefe ob die Eingabe richtig ist
+        // Pruefe ob die Eingabe richtig is^1y234t
         printf("Erneut Versuchen! Bitte Startpunkt eingeben (x,y): ");
         check_var1 = scanf("%d,%d", &x, &y);
         fflush(stdin);
@@ -82,37 +82,44 @@ int main()
     do
     {
         printf("Neuen %d.Streckenpunkt x,y (Abbruch mit x=-1): ", zeahler);
-        //check_var2 = 0;
         check_var2 = scanf("%d,%d", &x1, &y1);
         fflush(stdin);
-        if(zeahler > 2)
+        //printf("\nZeahler vorher: %d\n", zeahler);
+        if(zeahler >= 2)
         {
             if((check_var2 == 1) && (x1 == -1))
             {
                 // Abruchbedingung
                 break;
             }
-        } else {
-            printf("Es fehlen noch Streckenpunkte!");
+            /**else
+            {
+                printf("Es fehlen noch Streckenpunkte!\n");
+            }**/
         }
+        //printf("\nZeahler nach zeahler>=2: %d\n", zeahler);
+
         if(check_var2 != 2)
         {
             // Pruefe ob die Eingabe richtig ist
             printf("Erneut Versuchen! Bitte %d.Streckenpunkt eingeben (x,y): ", zeahler);
             check_var2 = scanf("%d,%d", &x, &y);
             fflush(stdin);
-            zeahler--;
         }
+        //printf("\nZeahler nach check_var2: %d\n", zeahler);
+
         //printf("check_var2: %d & x: %d\n", check_var2, x);
         // Errechnen der Strecke, bei jeder Wiederholung addieren des naechsten Punktes: 
-        streckenergebnis = streckenergebnis + differenz_zweier_punkte(x, x1, y, y1);
+        streckenergebnis += differenz_zweier_punkte(x, x1, y, y1);
         //printf("check_var2: %d & x: %d\n", check_var2, x);
         x = x1;
         y = y1;
         zeahler++;
+        //printf("\nZeahler nach zeahler++: %d\n", zeahler);
+
     }
-    while((check_var2 > 1) && (x != -1));
-    
+    while(zeahler >= 1);
+
     /*do
     {
         printf("Neuer Streckenpunkt x,y (Abbruch mit x=-1):");
