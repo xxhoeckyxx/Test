@@ -86,7 +86,8 @@ int ueberlaufs_pruefung(int zeitwert, int wert)
 
 int richtigstellung_zeit(int zeitwert, int wert)
 {
-  int zeahler = 0;
+  int zeahler = 0,
+      zeitwert_alt = zeitwert;
   if (wert == 0 || wert == 1)
   {
     while (zeitwert > 60 || zeitwert < 0)
@@ -117,6 +118,10 @@ int richtigstellung_zeit(int zeitwert, int wert)
         zeitwert = zeitwert + 24;
         zeahler--;
       }
+    }
+    if(zeitwert_alt > zeitwert)
+    {
+      zeitwert = -zeitwert;
     }
   }
   return zeitwert;
@@ -193,14 +198,14 @@ int main()
   }
   //printf("pruefen: %d\n", pruefen);
 
-  zeit_hh = berechnung(pruefen, hh, hh1);
-  zeit_mm = berechnung(pruefen, mm, mm1);
   zeit_ss = berechnung(pruefen, ss, ss1);
+  zeit_mm = berechnung(pruefen, mm, mm1);
+  zeit_hh = berechnung(pruefen, hh, hh1);
 
-  dd_ergebnis = ueberlaufs_pruefung(hh_ergebnis, 2);
-  hh_ergebnis = zeit_hh + ueberlaufs_pruefung(mm_ergebnis, 1);
-  mm_ergebnis = zeit_mm + ueberlaufs_pruefung(ss_ergebnis, 0);
   ss_ergebnis = zeit_ss;
+  mm_ergebnis = zeit_mm + ueberlaufs_pruefung(ss_ergebnis, 0);
+  hh_ergebnis = zeit_hh + ueberlaufs_pruefung(mm_ergebnis, 1);
+  dd_ergebnis = ueberlaufs_pruefung(hh_ergebnis, 2);
 
   ss_ergebnis = richtigstellung_zeit(ss_ergebnis, 0);
   mm_ergebnis = richtigstellung_zeit(mm_ergebnis, 1);
