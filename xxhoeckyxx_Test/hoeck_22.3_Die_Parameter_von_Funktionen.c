@@ -119,7 +119,7 @@ int richtigstellung_zeit(int zeitwert, int wert)
         zeahler--;
       }
     }
-    if(zeitwert_alt > zeitwert)
+    if(zeitwert_alt < zeitwert)
     {
       zeitwert = -zeitwert;
     }
