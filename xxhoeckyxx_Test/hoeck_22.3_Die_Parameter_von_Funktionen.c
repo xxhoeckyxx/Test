@@ -18,6 +18,8 @@
 
 int addition(int var1, int var2)
 {
+  //  Einfache Addition zweier Zahlen
+
   //printf("add var1: %d, var2: %d\n", var1, var2);
   int result = var1 + var2;
   //printf("result: %d\n", result);
@@ -26,6 +28,8 @@ int addition(int var1, int var2)
 
 int subtraktion(int var1, int var2)
 {
+  //  Einfache Subtraktion zweier Zahlen
+  
   //printf("sub var1: %d, var2: %d\n", var1, var2);
   int result = var1 - var2;
   //printf("result: %d\n", result);
@@ -34,6 +38,8 @@ int subtraktion(int var1, int var2)
 
 int berechnung(int var1, int var2, int var3)
 {
+  //  Auswahl der Add oder Sub mit hilfe einer Variablen + uebergabe der Einzelnen Operanten
+
   int result;
   //printf("\n var1: %d, var2: %d, var3: %d\n", var1, var2, var3);
   if(var1 == 0)
@@ -48,6 +54,11 @@ int berechnung(int var1, int var2, int var3)
 
 int ueberlaufs_pruefung(int zeitwert, int wert)
 {
+  // Ueberpruefen ob eine Zahl in das Uhren-Format passt bspw. 24h oder 60min/sec 
+  // durch die Variable "wert" wird uebermittelt um welchen Stellenwert es sich handelt
+  // durch den Zeahler wird der Wert des neachst hoeheren Stellenwert ermittelt
+  // -> Somit umrechnung von Sek in Min und von Min in Std sowie von Std in Tage moeglich
+
   int zeahler = 0;
   if (wert == 0 || wert == 1)
   {
@@ -86,6 +97,11 @@ int ueberlaufs_pruefung(int zeitwert, int wert)
 
 int richtigstellung_zeit(int zeitwert, int wert)
 {
+  // selbes Prinzip wie bei "ueberlaufs_pruefung()" 
+  // Aenderungen:
+  // - Es wird die Zeit auf den tatsaechlichen Wert gesetzt nicht nur der Ueberlauf ermittelt
+  // - Stunden werden richtig Subtrahiert und Addiert
+
   int zeahler = 0,
       zeitwert_alt = zeitwert;
   if (wert == 0 || wert == 1)
@@ -129,6 +145,11 @@ int richtigstellung_zeit(int zeitwert, int wert)
 
 int pruefe_operand(int pruefen)
 {
+  // Pruefung ob der richtige Operant eingegeben wurde 
+  // ASCII 43 = +
+  // ASCII 45 = -
+  // fuer alle faschen Werte erhealt man "2" zurueck
+
   if(pruefen == 43)
   {
     return 0;
@@ -136,6 +157,22 @@ int pruefe_operand(int pruefen)
     return 1;
   } else {
     return 2;
+  }
+}
+
+int printZeiten(char operand, int std1, int min1, int sek1, int std2, int min2, int sek2, int day3, int std3, int min3, int sek3)
+{
+  if(day3 == 0)
+  {
+    printf("%d:%d:%d %c %d:%d:%d = %d:%d:%d", std1, min1, sek1, operand, std2, min2, sek2, std3, min3, sek3);
+  } else if(std3 == 0) {
+    printf("%d:%d %c %d:%d = %d:%d", min1, sek1, operand, min2, sek2, min3, sek3);
+  } else if(min3 == 0) {
+    printf("%d %c %d = %d", sek1, operand, sek2, sek3);
+  } else if(day3 == 1){
+    printf("%d:%d:%d %c %d:%d:%d = %d Tag %d:%d:%d", std1, min1, sek1, operand, std2, min2, sek2, day3, std3, min3, sek3);
+  } else {
+    printf("%d:%d:%d %c %d:%d:%d = %d Tage %d:%d:%d", std1, min1, sek1, operand, std2, min2, sek2, day3, std3, min3, sek3);
   }
 }
 
@@ -160,8 +197,9 @@ int main()
       check_var2 = 0,
       check_var3 = 0;
 
-  printf("STaschenrechner fuer Uhrzeiten\n");
-  printf("==============================\n");
+  printf("Taschenrechner fuer Uhrzeiten\n");
+  printf("=============================\n");
+
   printf("Bitte Startzeit eingeben (hh:mm:ss): ");
   check_var1 = scanf("%d:%d:%d", &hh, &mm, &ss);
   fflush(stdin);
@@ -172,6 +210,7 @@ int main()
     check_var1 = scanf("%d:%d:%d", &hh, &mm, &ss);
     fflush(stdin);
   }
+
   printf("Bitte 2. Zeit eingeben (hh:mm:ss): ");
   check_var2 = scanf("%d:%d:%d", &hh1, &mm1, &ss1);
   fflush(stdin);
@@ -182,6 +221,7 @@ int main()
     check_var2 = scanf("%d:%d:%d", &hh1, &mm1, &ss1);
     fflush(stdin);
   }
+
   printf("Bitte Operation eingeben (+/-): ");
   check_var3 = scanf("%c", &operand);
   //printf("Operand: %d, check_var3: %d\n", operand, check_var3);
@@ -196,20 +236,30 @@ int main()
     pruefen = pruefe_operand(operand);
     fflush(stdin);
   }
+
   //printf("pruefen: %d\n", pruefen);
+
+  // Neue Zeiten werden berechnet und zwischen gespeichert
 
   zeit_ss = berechnung(pruefen, ss, ss1);
   zeit_mm = berechnung(pruefen, mm, mm1);
   zeit_hh = berechnung(pruefen, hh, hh1);
+
+  // Zeiten werden mit hilfe des Ueberlaufes erstmal zusammengefasst
 
   ss_ergebnis = zeit_ss;
   mm_ergebnis = zeit_mm + ueberlaufs_pruefung(ss_ergebnis, 0);
   hh_ergebnis = zeit_hh + ueberlaufs_pruefung(mm_ergebnis, 1);
   dd_ergebnis = ueberlaufs_pruefung(hh_ergebnis, 2);
 
+  // Zeiten werden angepasst damit nichts mehr doppelt vorhanden ist
+
   ss_ergebnis = richtigstellung_zeit(ss_ergebnis, 0);
   mm_ergebnis = richtigstellung_zeit(mm_ergebnis, 1);
   hh_ergebnis = richtigstellung_zeit(hh_ergebnis, 2);
 
-  printf("%d:%d:%d %c %d:%d:%d = %d:%d:%d", hh, mm, ss, operand, hh1, mm1, ss1, hh_ergebnis, mm_ergebnis, ss_ergebnis);
+  //Ausgabefunktion mit Fallunterscheidung -> je nach Bedarf Tage, Std, Min und/oder Sek anzeigen
+
+  printZeiten(operand, hh, mm, ss, hh1, mm1, ss1, dd_ergebnis, hh_ergebnis, mm_ergebnis, ss_ergebnis);
+  
 }
