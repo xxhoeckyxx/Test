@@ -1,6 +1,6 @@
 /*
 ----- zeitrech.c --------------------------------------------------------
- Description: Aufgabe 22.3.1 - Zeiten-Tachenrechner
+ Description: Aufgabe 22.3.1 - Zeiten-Taschenrechner
      Project: Praktikum Informatik 1
       Author: hoeckch80619@th-nuernberg.de
         Date: 20-Juni-2022
@@ -60,8 +60,10 @@ int ueberlaufs_pruefung(int zeitwert, int wert)
   // -> Somit umrechnung von Sek in Min und von Min in Std sowie von Std in Tage moeglich
 
   int zeahler = 0;
-  if (wert == 0 || wert == 1)
+  switch (wert)
   {
+  case 0:
+  case 1:
     while (zeitwert > 60 || zeitwert < 0)
     {
       if (zeitwert > 60)
@@ -75,9 +77,8 @@ int ueberlaufs_pruefung(int zeitwert, int wert)
         zeahler--;
       }
     }
-  }
-  if (wert == 2)
-  {
+    break;
+  case 2:
     while (zeitwert > 24 || zeitwert < 0)
     {
       if (zeitwert > 24)
@@ -91,6 +92,7 @@ int ueberlaufs_pruefung(int zeitwert, int wert)
         zeahler--;
       }
     }
+    break;
   }
   return zeahler;
 }
@@ -104,8 +106,10 @@ int richtigstellung_zeit(int zeitwert, int wert)
 
   int zeahler = 0,
       zeitwert_alt = zeitwert;
-  if (wert == 0 || wert == 1)
+  switch (wert)
   {
+  case 0:
+  case 1:
     while (zeitwert > 60 || zeitwert < 0)
     {
       if(zeitwert > 60)
@@ -119,9 +123,8 @@ int richtigstellung_zeit(int zeitwert, int wert)
         zeahler--;
       }
     }
-  }
-  if (wert == 2)
-  {
+    break;
+  case 2:
     while (zeitwert > 24 || zeitwert < 0)
     {
       if (zeitwert > 24)
@@ -135,11 +138,13 @@ int richtigstellung_zeit(int zeitwert, int wert)
         zeahler--;
       }
     }
-    if(zeitwert_alt < zeitwert)
+    if (zeitwert_alt < zeitwert)
     {
       zeitwert = -zeitwert;
     }
+    break;
   }
+  
   return zeitwert;
 }
 
@@ -160,7 +165,7 @@ int pruefe_operand(int pruefen)
   }
 }
 
-int printZeiten(char operand, int std1, int min1, int sek1, int std2, int min2, int sek2, int day3, int std3, int min3, int sek3)
+void printZeiten(char operand, int std1, int min1, int sek1, int std2, int min2, int sek2, int day3, int std3, int min3, int sek3)
 {
   if(day3 == 0)
   {
@@ -169,7 +174,7 @@ int printZeiten(char operand, int std1, int min1, int sek1, int std2, int min2, 
     printf("%d:%d %c %d:%d = %d:%d", min1, sek1, operand, min2, sek2, min3, sek3);
   } else if(min3 == 0) {
     printf("%d %c %d = %d", sek1, operand, sek2, sek3);
-  } else if(day3 == 1){
+  } else if (day3 == 1 || day3 == -1) {
     printf("%d:%d:%d %c %d:%d:%d = %d Tag %d:%d:%d", std1, min1, sek1, operand, std2, min2, sek2, day3, std3, min3, sek3);
   } else {
     printf("%d:%d:%d %c %d:%d:%d = %d Tage %d:%d:%d", std1, min1, sek1, operand, std2, min2, sek2, day3, std3, min3, sek3);
