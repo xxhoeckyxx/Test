@@ -64,7 +64,7 @@ int main()
   int tmp = 0;
   for (int i = kugeln_gezogen; i > 0; i--)
   {
-    tmp=(rand() % (kugeln_gesamt - 1)) + 1;
+    tmp=(rand() % (kugeln_gesamt + 1));
     if (kugeln[tmp] != tmp)
     {
       kugeln[tmp] = tmp;
