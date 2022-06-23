@@ -1,6 +1,6 @@
 /*
 ----- lotto.c -----------------------------------------------------------
- Description: Aufgabe 25.1.1 - Ziehen der Lottozahlen simulieren 
+ Description: Aufgabe 25.1.1 - Ziehen der Lottozahlen simulieren
      Project: Praktikum Informatik 1
       Author: hoeckch80619@th-nuernberg.de
         Date: 23-Juni-2022
@@ -18,6 +18,7 @@
 int main()
 {
   char operand;
+  srand((int) time(0));
   int pruefen = 0,
       kugeln_gesamt = 0,
       kugeln_gezogen = 0,
@@ -48,17 +49,14 @@ int main()
   printf("Wieviele werden davon gezogen (mind. 1 und max. %d): ", kugeln_gesamt);
   check_var2 = scanf("%d", &kugeln_gezogen);
   fflush(stdin);
-  printf("debug\n");
-  /*while (check_var2 > 1)
+  while (check_var2 > 1)
   {
-    
+
     // Pruefe ob die Eingabe richtig ist!
     printf("Erneut Versuchen! Wieviele werden davon gezogen (mind. 1 und max. %d): ", kugeln_gesamt);
     check_var2 = scanf("%d", &kugeln_gezogen);
     fflush(stdin);
-  }*/
-  printf("debug\n");
-  fflush(stdout);
+  }
   printf("==== %d aus %d ====", kugeln_gezogen, kugeln_gesamt);
 
   // fill_with_random
@@ -66,8 +64,7 @@ int main()
   int tmp = 0;
   for (int i = kugeln_gezogen; i > 0; i--)
   {
-    srand(tmp);
-    tmp = tmp % kugeln_gezogen;
+    tmp=(rand() % (kugeln_gesamt - 1)) + 1;
     if (kugeln[tmp] != tmp)
     {
       kugeln[tmp] = tmp;
@@ -79,14 +76,15 @@ int main()
   }
 
   // gib_aus
-
-  for (int i = 0; i <= 100; i++)
+    printf("\n");
+  for (int i = 0; i < 100; i++)
   {
     if (kugeln[i] != 0)
     {
       printf("\t%d", kugeln[i]);
     }
   }
+  printf("\n");
 
   return 0;
 }
