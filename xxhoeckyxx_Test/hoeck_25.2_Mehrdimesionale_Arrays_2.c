@@ -22,28 +22,26 @@ int main()
   srand((int)time(0));
   int pruefen = 0,
       spielfeld_groesse = 0,
-      spieler_wechsel = 1,
+      spieler_wechsel = 0,
       zug_x = 0,
       zug_y = 0,
       sieger = 0,
       check_var1 = 0,
-      check_var2 = 0,
-      dotcount = 0;
+      check_var2 = 0;
 
   printf("Das Spiel TicTac\n");
   printf("===================\n");
 
-  printf("Spielfeldgroesse (mind. 3, maximal 9): ");
+  printf("Spielfeldgroesse (mind. 3, maximal 10): ");
   check_var1 = scanf("%d", &spielfeld_groesse);
   fflush(stdin);
-  while (check_var1 > 1 || spielfeld_groesse < 3 || spielfeld_groesse > 9)
+  while (check_var1 > 1 || spielfeld_groesse < 3 || spielfeld_groesse > 10)
   {
     // Pruefe ob die Eingabe richtig ist!
-    printf("Erneut Versuchen! Spielfeldgroesse (mind. 3, maximal 9): ");
+    printf("Erneut Versuchen! Spielfeldgroesse (mind. 3, maximal 10): ");
     check_var1 = scanf("%d", &spielfeld_groesse);
     fflush(stdin);
   }
-  //spielfeld erstellung
   char spielfeld[spielfeld_groesse + 2][spielfeld_groesse + 2];
 
   //spielfeld mit . füllen
@@ -59,15 +57,14 @@ int main()
   }
 
   // Spieler Toggle Funktion
-  while(1)
-  {
-    if(spieler_wechsel == 1)
+  while(1){
+    if (spieler_wechsel == 1)
     {
-      //Spieler 1 X ist dran
+      // Spieler 1 X ist dran
       printf("\nDein Zug, Spieler 1 (Zeile, Spalte): ");
       check_var2 = scanf("%d,%d", &zug_y, &zug_x);
       fflush(stdin);
-      while (check_var2 > 2 || check_var2 < 1 || spielfeld[zug_y][zug_x] == 'X' || spielfeld[zug_y][zug_x] == 'O'|| zug_y < 1 || zug_y > spielfeld_groesse || zug_x < 1 || zug_x > spielfeld_groesse)
+      while (check_var2 > 2 || check_var2 < 1 || spielfeld[zug_y][zug_x] == 'X' || spielfeld[zug_y][zug_x] == 'O' || zug_y < 1 || zug_y > spielfeld_groesse || zug_x < 1 || zug_x > spielfeld_groesse)
       {
         // Pruefe ob die Eingabe richtig ist!
         printf("Erneut Versuchen! Dein Zug, Spieler 1 (Zeile, Spalte): ");
@@ -76,8 +73,10 @@ int main()
       }
       spielfeld[zug_y][zug_x] = 'X';
       spieler_wechsel--;
-    } else {
-      //Spieler 2 O ist dran
+    }
+    else
+    {
+      // Spieler 2 O ist dran
       printf("\nDein Zug, Spieler 2 (Zeile, Spalte): ");
       check_var2 = scanf("%d,%d", &zug_y, &zug_x);
       fflush(stdin);
@@ -91,7 +90,7 @@ int main()
       spielfeld[zug_y][zug_x] = 'O';
       spieler_wechsel++;
     }
-    
+
     //spielfeld ausgeben
     for(int zeile = 1; zeile <= spielfeld_groesse; zeile++)
     {
@@ -102,73 +101,13 @@ int main()
       }
     }  
     //überprüfen ob jemand gewonnen hat
-    for(int zeile = 1; zeile <= spielfeld_groesse; zeile++){
-      for(int spalte = 1; spalte <= spielfeld_groesse; spalte++)
-      {
-        if(spielfeld[zeile][spalte] != '.')
-        {
-          if(spielfeld[zeile][spalte] == spielfeld[zeile + 1][spalte] && spielfeld[zeile + 1][spalte] == spielfeld[zeile + 2][spalte])
-          {
-            if(spielfeld[zeile][spalte] == 'X')
-            {
-              sieger=1;
-              break;
-            } else {
-              sieger=2;
-              break;
-            }
-            
-          } else if(spielfeld[zeile][spalte] == spielfeld[zeile][spalte + 1] && spielfeld[zeile][spalte + 1] == spielfeld[zeile][spalte + 2])
-          {
-            if(spielfeld[zeile][spalte] == 'X')
-            {
-              sieger=1;
-              break;
-            } else {
-              sieger=2;
-              break;
-            }
-          } else if(spielfeld[zeile][spalte] == spielfeld[zeile + 1][spalte + 1] && spielfeld[zeile + 1][spalte + 1] == spielfeld[zeile + 2][spalte + 2])
-          {
-            if(spielfeld[zeile][spalte] == 'X')
-            {
-              sieger=1;
-              break;
-            } else {
-              sieger=2;
-              break;
-            }
-          } else if(spielfeld[zeile][spalte] == spielfeld[zeile + 1][spalte - 1])
-          {
-            if(spielfeld[zeile + 1][spalte - 1] == spielfeld[zeile + 2][spalte - 2])
-            {
-              if(spielfeld[zeile][spalte] == 'X')
-              {
-                sieger=1;
-                break;
-              } else {
-                sieger=2;
-                break;
-              }
-            }
-          }
-        }else{
-          dotcount++;
-        }
-      }
-    }  
-    if(sieger != 0)
-    {
-      printf("\nSpieler %d hat gewonnen!", sieger);
-      break;
-    }
-    if(dotcount==0)
-    {
-      printf("\nUnetschieden. Keiner gewinnt irgendwas. :(");
-      break;
-    }
-    dotcount=0;  
-  }
+    
+    for(int durchlauf)
 
+  }
+  if(sieger != 0)
+  {
+    printf("Spieler %d hat gewonnen!", sieger);
+  }
   return 0;
 }
