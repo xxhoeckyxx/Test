@@ -24,8 +24,13 @@ def update_data(interval):
 def update_plots(cpu_history, ram_history, network_history):
     cpu_line.set_ydata(cpu_history)
     ram_line.set_ydata(ram_history)
-    for interface, line in network_ax.lines.items():
-        line.set_ydata(network_history[interface])
+    for interface, percent in network_history.items():
+        if interface not in network_lines:
+            line, = network_ax.plot(
+                network_history[interface], label=interface, alpha=0.8)
+            network_lines[interface] = line
+        else:
+            network_lines[interface].set_ydata(network_history[interface])
     network_ax.set_ylim(
         [0, max(max(network_history.values()), default=0) * 1.1])
 
@@ -33,7 +38,7 @@ def on_slider_change(val):
     global update_interval
     update_interval = val
 
-# Initialisiere Diagramme
+# Initialize plots
 history_length = 60
 update_interval = 1
 
@@ -45,7 +50,38 @@ slider_ax = plt.axes([0.25, 0.1, 0.5, 0.03])
 slider = Slider(slider_ax, "Update Interval (s)", 0.1, 5, valinit=1, valstep=0.1)
 slider.on_changed(on_slider_change)
 
-# Rest of the code remains the same
+# Initialize histories
+cpu_history = [0] * history_length
+ram_history = [0] * history_length
+network_history = {}
+network_lines = {}
+
+# CPU plot
+cpu_ax.set_ylim([0, 100])
+cpu_ax.set_title('CPU Usage (%)')
+cpu_line, = cpu_ax.plot(cpu_history, color='C0', alpha=0.8)
+
+# RAM plot
+ram_ax.set_ylim([0, 100])
+ram_ax.set_title('RAM Usage (%)')
+ram_line, = ram_ax.plot(ram_history, color='C1', alpha=0.8)
+
+# Network plot
+network_ax.set_title('Network Usage (%)')
+
+# Time axis
+time_labels = [f'-{history_length - i}s' for i in range(history_length)][::-5]
+cpu_ax.set_xticks(range(0, history_length, 5))
+cpu_ax.set_xticklabels(time_labels)
+ram_ax.set_xticks(range(0, history_length, 5))
+ram_ax.set_xticklabels(time_labels)
+network_ax.set_xticks(range(0, history_length, 5))
+network_ax.set_xticklabels(time_labels)
+
+network_ax.legend()
+
+# Show plots
+plt.show(block=False)
 
 while plt.fignum_exists(fig.number):
     cpu_percent, ram_percent, network_percent = update_data(update_interval)
