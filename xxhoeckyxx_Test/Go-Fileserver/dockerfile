@@ -1,0 +1,6 @@
+FROM golang:1.19.3-alpine
+
+COPY . ./
+RUN go build ./main.go
+
+ENTRYPOINT ["sh", "-c", "./main" ]

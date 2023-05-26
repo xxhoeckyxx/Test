@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Test Page</title>
+    <link rel="stylesheet" href="/styles.css">
+    <script src="script.js"></script>
+</head>
+<body>
+    <div class="navbar">
+        <a class="button" href="/">Test Server</a>
+        <a class="button" href="">Home</a>
+        <a class="button" href="">Bilder</a>
+        <a class="button" href="">Videos</a>
+        <a class="button-red" href="/shutdown.html">Shutdown</a>
+    </div>
+
+    <div class="content">
+        <div class="card1">
+            <h1>Test Page</h1>
+            <p>This button tests the connection through the server.</p>
+            <button class="button" onclick="testServer()">Test Server</button>
+        </div>
+
+        <div class="card2">
+            <h3>Output:</h3>
+            <div id="output"></div>
+        </div>
+    </div>
+</body>
+</html>

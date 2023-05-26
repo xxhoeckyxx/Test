@@ -8,3 +8,8 @@ xxhoeckyxx_Test/build
 RocksGam3R_Test/build
 FunGam3R_Test/build
 Purpl3Umbr3lla_Test/build
+
+# CSS Sheet
+xxhoeckyxx_Test/Go-Fileserver/templates/android-style.css
+xxhoeckyxx_Test/Go-Fileserver/templates/ios-style.css
+xxhoeckyxx_Test/Go-Fileserver/templates/fav-style.css
