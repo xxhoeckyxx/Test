@@ -9,7 +9,7 @@ body {
 }
 
 .navbar {
-    background-color: #009999;
+    background-color: #FF8C00;
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
     padding: 16px;
     color: #fff;
@@ -59,7 +59,7 @@ body {
 }
 
 .button {
-    background-color: #009999;
+    background-color: #FF8C00;
     color: #fff;
     border: none;
     border-radius: 3px;
@@ -71,7 +71,7 @@ body {
 }
 
 .button:hover {
-    background-color: #007d7d;
+    background-color: #cc7000;
 }
 
 .button-red {
@@ -98,7 +98,7 @@ body {
 }
 
 .file-input-button {
-    background-color: #009999;
+    background-color: #FF8C00;
     color: #fff;
     border: none;
     border-radius: 3px;
@@ -109,5 +109,5 @@ body {
 }
 
 .file-input-button:hover {
-    background-color: #007d7d;
+    background-color: #cc7000;
 }

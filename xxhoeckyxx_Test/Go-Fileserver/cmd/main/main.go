@@ -1,68 +1,91 @@
 package main
 
 import (
-	"context"
 	"fmt"
-	"io"
 	"log"
 	"net/http"
+	"os"
+	"os/signal"
+	"syscall"
+	"time"
 )
 
+func main() {
+	mux := http.NewServeMux()
 
-var messages []string // Deklaration der Variable messages
+	fs := http.FileServer(http.Dir("../templates"))
 
-func addErrorMessage(message string) {
-	messages = append(messages, message)
-	if len(messages) > 6 {
-		messages = messages[1:]
-	}
-}
-
-func SetupServer(shutdown chan bool, server *http.Server, mux *http.ServeMux) {
-	fs := http.FileServer(http.Dir("./templates"))
-
+	// Handler für die Startseite und statische Dateien
 	mux.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 		if r.URL.Path == "/" {
-			http.ServeFile(w, r, "./templates/main.html")
+			http.ServeFile(w, r, "../templates/home.html")
 			return
 		}
 		fs.ServeHTTP(w, r)
 	})
 
-	mux.HandleFunc("/Viedos", handleUploadManifest)
+	// Handler für den Test-Endpunkt
+	mux.HandleFunc("/test", handleTest)
 
-	mux.HandleFunc("/Bilder", handleUploadWASM)
+	// Handler für den Upload-Endpunkt
+	mux.HandleFunc("/upload", handleUpload)
 
-	mux.HandleFunc("/test", func(w http.ResponseWriter, r *http.Request) {
-		res, err := http.Get("http://backend:9998/")
+	// Handler für den Download-Endpunkt
+	mux.HandleFunc("/download", handleDownload)
+
+	// Handler für den Terminate-Endpunkt
+	mux.HandleFunc("/terminate", handleTerminate)
+
+	port := ":8080"
+	fmt.Printf("Server listening on port %s\n", port)
+
+	server := &http.Server{Addr: port, Handler: mux}
+
+	go func() {
+		err := server.ListenAndServe()
 		if err != nil {
-			fmt.Fprintf(w, "failed to contact backend. Error code: %s", err)
-		} else {
-			body, _ := io.ReadAll(res.Body)
-			fmt.Fprintf(w, "Test successful!\n Current Status: %s", body)
+			log.Fatal(err)
 		}
-	})
+	}()
 
-	mux.HandleFunc("/terminate", func(w http.ResponseWriter, r *http.Request) {
-		fmt.Println("I was asked to Terminate")
-		fmt.Fprint(w, "shutting down...")
-		shutdown <- true
-	})
-
-	fmt.Println("+++ server starting +++")
-	err := server.ListenAndServe()
-	if err != nil {
-		log.Fatal(err)
-	}
+	waitForShutdown(server)
 }
 
-func main() {
-	mux := http.NewServeMux()
-	server := &http.Server{Addr: ":8080", Handler: mux}
-	shutdown := make(chan bool, 1)
-	go SetupServer(shutdown, server, mux)
+// Handler für den Test-Endpunkt
+func handleTest(w http.ResponseWriter, r *http.Request) {
+	fmt.Fprintf(w, "Test erfolgreich!, du bist nun startklar.")
+}
 
-	fmt.Println("+++ waiting for shutdown signal +++")
-	<-shutdown
-	server.Shutdown(context.Background())
+// Handler für den Upload-Endpunkt
+func handleUpload(w http.ResponseWriter, r *http.Request) {
+	fmt.Fprintf(w, "Datei-Upload")
+}
+
+// Handler für den Download-Endpunkt
+func handleDownload(w http.ResponseWriter, r *http.Request) {
+	fmt.Fprintf(w, "Datei-Download")
+}
+
+func handleTerminate(w http.ResponseWriter, r *http.Request) {
+	fmt.Fprintf(w, "Server wird heruntergefahren")
+	shutdownServer()
+	fmt.Fprintf(w, "Server erfolgreich heruntergefahren")
+}
+
+// Warten auf das Herunterfahren des Servers
+func waitForShutdown(server *http.Server) {
+	stopChan := make(chan os.Signal, 1)
+	signal.Notify(stopChan, os.Interrupt, syscall.SIGTERM)
+	<-stopChan
+
+	fmt.Println("\nServer wird heruntergefahren...")
+	shutdownServer()
+}
+
+// Herunterfahren des Servers
+func shutdownServer() {
+	var message = "Server erfolgreich heruntergefahren"
+	time.Sleep(3 * time.Second)
+	fmt.Println(message)
+	os.Exit(0)
 }
