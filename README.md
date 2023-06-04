@@ -6,7 +6,7 @@ in den Ordnern:
 - Purpl3Umbr3lla_Test
   - Programmiersprache 'Java'
 - FunGam3R_Test
-  - Programmiersprache 'C++'
+  - Programmiersprache 'Go, HTML und JavaScript'
 - xxhoeckyxx_Test
-  - Programmiersprachen 'C und C++'
+  - Programmiersprachen 'C und C++ sowie Go, HTML und JavaScript'
   - Uebungen der TH
