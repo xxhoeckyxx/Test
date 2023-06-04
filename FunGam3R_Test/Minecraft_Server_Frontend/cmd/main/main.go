@@ -56,9 +56,16 @@ func main() {
 
 // Handler für den Start des Java-Befehls des Minecraft Servers
 func handleStartUp(w http.ResponseWriter, r *http.Request) {
-	exec.Command("pwd")
+	pwd := exec.Command("pwd")
 	cmd := exec.Command("java", "-Xms1024M", "-Xmx1024M", "-jar", "/opt/minecraft/minecraft_server.jar", "nogui")
 	cmd.Dir = "/opt/minecraft" // Arbeitsverzeichnis festlegen
+
+	pwd_output, pwd_err := pwd.Output()
+	if pwd_err != nil {
+		fmt.Fprintf(w, "Kein Verzeichnis? %s", pwd_err)
+		return
+	}
+	fmt.Fprintf(w, "Du bist im Verzeichnis: %s", pwd_output)
 
 	output, err := cmd.Output()
 	if err != nil {
