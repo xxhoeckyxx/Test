@@ -5,6 +5,7 @@ import (
 	"log"
 	"net/http"
 	"os"
+	"os/exec"
 	"os/signal"
 	"syscall"
 )
@@ -22,6 +23,9 @@ func main() {
 		}
 		fs.ServeHTTP(w, r)
 	})
+
+	// Handler für den Start des Java-Befehls des Minecraft Servers
+	mux.HandleFunc("/start", handleStartUp)
 
 	// Handler für den Test-Endpunkt
 	mux.HandleFunc("/test", handleTest)
@@ -48,6 +52,21 @@ func main() {
 	}()
 
 	waitForShutdown(server)
+}
+
+// Handler für den Start des Java-Befehls des Minecraft Servers
+func handleStartUp(w http.ResponseWriter, r *http.Request) {
+	exec.Command("pwd")
+	cmd := exec.Command("java", "-Xms1024M", "-Xmx1024M", "-jar", "/opt/minecraft/minecraft_server.jar", "nogui")
+	cmd.Dir = "/opt/minecraft" // Arbeitsverzeichnis festlegen
+
+	output, err := cmd.Output()
+	if err != nil {
+		fmt.Fprintf(w, "Fehler bei der Befehlsausführung: %s", err)
+		return
+	}
+
+	fmt.Fprintf(w, "Befehl erfolgreich ausgeführt. Ausgabe:\n%s", output)
 }
 
 // Handler für den Test-Endpunkt

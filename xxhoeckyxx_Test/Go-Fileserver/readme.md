@@ -1,3 +1,3 @@
 sh: go build -o ../../build/fileserver.exe .\main.go
-sh: go run .\main.go
+sh: go run .\cmd\main\main.go
 Server listening on port :8080
