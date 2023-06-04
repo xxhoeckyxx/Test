@@ -2,44 +2,24 @@
 <html>
 <head>
     <title>Test Go-Server</title>
+    <script src="../JS/messages.js"></script>
     <script>
-        var messages = [];
-
-            function addMessage(message) {
-                var timestamp = new Date().toLocaleTimeString();
-                var fullMessage = timestamp + ': ' + message;
-                messages.push(fullMessage);
-                if (messages.length > 6) {
-                    messages.shift();
-                }
-                displayMessages();
-            }
-
-            function displayMessages() {
-                var output = document.getElementById('output');
-                output.innerHTML = '';
-
-                for (var i = 0; i < messages.length; i++) {
-                    output.innerHTML += '<p>' + messages[i] + '</p>';
-                }
-            }
-
-            function testServer() {
-                fetch('/test', { method: 'GET' })
-                    .then(function (response) {
-                        if (response.ok) {
-                            return response.text(); // Server-Antwort als Text zurückgeben
-                        } else {
-                            throw new Error('Error retrieving server response.');
-                        }
-                    })
-                    .then(function (responseText) {
-                        addMessage(responseText); // Server-Antwort zur Nachrichtenliste hinzufügen
-                    })
-                    .catch(function (error) {
-                        addMessage('An error occurred: ' + error);
-                    });
-            }
+        function testServer() {
+            fetch('/test', { method: 'GET' })
+                .then(function (response) {
+                    if (response.ok) {
+                        return response.text(); // Server-Antwort als Text zurückgeben
+                    } else {
+                        throw new Error('Error retrieving server response.');
+                    }
+                })
+                .then(function (responseText) {
+                    addMessage(responseText); // Server-Antwort zur Nachrichtenliste hinzufügen
+                })
+                .catch(function (error) {
+                    addMessage('An error occurred: ' + error);
+                });
+        }
     </script>
 </head>
 <body>
