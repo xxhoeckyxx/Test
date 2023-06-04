@@ -1,0 +1,4 @@
+go 1.15
+
+use ./xxhoeckyxx_Test/Go-Fileserver
+use ./FunGam3R_Test/Minecraft_Server_Frontend

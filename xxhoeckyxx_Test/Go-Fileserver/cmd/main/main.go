@@ -13,12 +13,12 @@ import (
 func main() {
 	mux := http.NewServeMux()
 
-	fs := http.FileServer(http.Dir("../templates"))
+	fs := http.FileServer(http.Dir("./cmd/templates"))
 
 	// Handler für die Startseite und statische Dateien
 	mux.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 		if r.URL.Path == "/" {
-			http.ServeFile(w, r, "../templates/home.html")
+			http.ServeFile(w, r, "./cmd/templates/home.html")
 			return
 		}
 		fs.ServeHTTP(w, r)

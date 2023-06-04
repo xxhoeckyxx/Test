@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Test Go-Server</title>
+    <script>
+        var messages = [];
+
+            function addMessage(message) {
+                var timestamp = new Date().toLocaleTimeString();
+                var fullMessage = timestamp + ': ' + message;
+                messages.push(fullMessage);
+                if (messages.length > 6) {
+                    messages.shift();
+                }
+                displayMessages();
+            }
+
+            function displayMessages() {
+                var output = document.getElementById('output');
+                output.innerHTML = '';
+
+                for (var i = 0; i < messages.length; i++) {
+                    output.innerHTML += '<p>' + messages[i] + '</p>';
+                }
+            }
+
+            function testServer() {
+                fetch('/test', { method: 'GET' })
+                    .then(function (response) {
+                        if (response.ok) {
+                            return response.text(); // Server-Antwort als Text zurückgeben
+                        } else {
+                            throw new Error('Error retrieving server response.');
+                        }
+                    })
+                    .then(function (responseText) {
+                        addMessage(responseText); // Server-Antwort zur Nachrichtenliste hinzufügen
+                    })
+                    .catch(function (error) {
+                        addMessage('An error occurred: ' + error);
+                    });
+            }
+    </script>
+</head>
+<body>
+    <div class="navbar">
+        <a class="button" href="/server_test.html">Test Server</a>
+        <a class="button" href="/">Home</a>
+        <a class="button" href="/info.html">Informations</a>
+        <a class="button-red" href="/shutdown.html">Shutdown</a>
+    </div>
+
+    <div class="content">
+        <div class="card1">
+            <h1>Test Go-Server</h1>
+            <p>This button tests the connection through the go-server.</p>
+            <button class="button" onclick="testServer()">Test Server</button>
+        </div>
+
+        <div class="card2">
+            <h3>Output:</h3>
+            <div id="output"></div>
+        </div>
+    </div>
+</body>
+</html>
