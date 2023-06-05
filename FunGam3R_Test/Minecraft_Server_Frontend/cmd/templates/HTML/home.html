@@ -21,6 +21,23 @@
                     addMessage('An error occurred: ' + error);
                 });
         }
+
+        function stopMinecraft() {
+                fetch('/stop', { method: 'GET' })
+                    .then(function (response) {
+                        if (response.ok) {
+                            return response.text(); // Server-Antwort als Text zurückgeben
+                        } else {
+                            throw new Error('Error retrieving server response.');
+                        }
+                    })
+                    .then(function (responseText) {
+                        addMessage(responseText); // Server-Antwort zur Nachrichtenliste hinzufügen
+                    })
+                    .catch(function (error) {
+                        addMessage('An error occurred: ' + error);
+                    });
+            }
     </script>
 </head>
 
@@ -37,6 +54,7 @@
             <h1>Home</h1>
             <p>Welcome at Home, Master</p>
             <button class="button" onclick="startMinecraft()">Start the Server</button>
+            <button class="button" onclick="stopMinecraft()">Stop the Server</button>
         </div>
 
         <div class="card2">
