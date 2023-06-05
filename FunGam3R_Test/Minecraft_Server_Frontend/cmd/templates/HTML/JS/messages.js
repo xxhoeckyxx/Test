@@ -2,23 +2,21 @@ var messages = [];
 
 function addMessage(message) {
   var timestamp = new Date().toLocaleTimeString();
-  var fullMessage = timestamp + ': ' + message;
-  messages.push(fullMessage);
-  if (messages.length > 6) {
-    messages.shift();
+  var fullMessage = timestamp + ': ' + message.trim("\n"); // Leerzeichen und "New Line" am Anfang und Ende der Nachricht entfernen
+  if (fullMessage.length > 0) { // Prüfen, ob die Nachricht nicht leer ist
+    messages.push(fullMessage);
+    if (messages.length > 6) {
+      messages.shift();
+    }
+    displayMessages();
   }
-  displayMessages();
 }
 
 function displayMessages() {
   var output = document.getElementById('output');
-  output.innerHTML = '';
-
-  for (var i = 0; i < messages.length; i++) {
-    output.innerHTML += '<p>' + messages[i] + '</p>';
-  }
+  output.innerHTML = messages.join('<br>');
 }
 
 setInterval(function () {
   displayMessages();
-}, 1000);
+}, 1500);

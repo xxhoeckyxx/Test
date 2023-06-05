@@ -4,7 +4,13 @@
 
 <head>
     <title>Shutdown</title>
-    <script src="</JS/messages.js"></script>
+    <script src="/JS/messages.js"></script>
+    <script src="/JS/communicateServer.js"></script>
+    <script>
+        function stopGoServer() {
+            sendRequest('/terminate');
+        }
+    </script>
 </head>
 
 <body>
@@ -19,7 +25,7 @@
         <div class="card1">
             <h1>Shutdown</h1>
             <p>Welcome at Terminate, Master</p>
-            <button class="button" onclick="">Stop the Server</button>
+            <button class="button" onclick="stopGoServer()">Stop the Server</button>
         </div>
 
         <div class="card2">

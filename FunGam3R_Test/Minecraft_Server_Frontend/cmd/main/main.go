@@ -10,39 +10,28 @@ import (
 	"syscall"
 )
 
+const (
+	port        = ":8080"
+	memorySize  = "1024M"
+	serverJar   = "/opt/minecraft/minecraft_server.jar"
+	templatesDir = "./cmd/templates/HTML"
+)
+
 func main() {
 	mux := http.NewServeMux()
 
-	fs := http.FileServer(http.Dir("./cmd/templates/HTML"))
+	fs := http.FileServer(http.Dir(templatesDir))
 
-	// Handler für die Startseite und statische Dateien
 	mux.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-		if r.URL.Path == "/" {
-			http.ServeFile(w, r, "./cmd/templates/HTML/home.html")
-			return
-		}
-		fs.ServeHTTP(w, r)
+		handleRoot(w, r, fs)
 	})
-
-	// Handler für den Start des Java-Befehls des Minecraft Servers
 	mux.HandleFunc("/start", handleStartUp)
-
-	// Handler für den Stop des Java-Minecraft Servers
 	mux.HandleFunc("/stop", handleClose)
-
-	// Handler für den Test-Endpunkt
 	mux.HandleFunc("/test", handleTest)
-
-	// Handler für den Upload-Endpunkt
 	mux.HandleFunc("/upload", handleUpload)
-
-	// Handler für den Download-Endpunkt
 	mux.HandleFunc("/download", handleDownload)
-
-	// Handler für den Terminate-Endpunkt
 	mux.HandleFunc("/terminate", handleTerminate)
 
-	port := ":8080"
 	fmt.Printf("Server listening on port %s\n", port)
 
 	server := &http.Server{Addr: port, Handler: mux}
@@ -57,74 +46,100 @@ func main() {
 	waitForShutdown(server)
 }
 
-// Handler für den Start des Java-Befehls des Minecraft Servers
+func handleRoot(w http.ResponseWriter, r *http.Request, fs http.Handler) {
+	if r.URL.Path == "/" {
+		http.ServeFile(w, r, "./cmd/templates/HTML/home.html")
+		return
+	}
+
+	fs.ServeHTTP(w, r)
+}
+
 func handleStartUp(w http.ResponseWriter, r *http.Request) {
 	pwd := exec.Command("pwd")
-	cmd := exec.Command("java", "-Xms1024M", "-Xmx1024M", "-jar", "/opt/minecraft/minecraft_server.jar", "nogui")
+	cmd := exec.Command("java", "-Xms"+memorySize, "-Xmx"+memorySize, "-jar", serverJar, "nogui")
 	cmd.Dir = "/opt/minecraft"
 
 	pwdOutput, pwdErr := pwd.Output()
 	if pwdErr != nil {
 		errorMessage := fmt.Sprintf("Fehler beim Ausführen des 'pwd'-Befehls: %s", pwdErr)
-		fmt.Fprintln(w, errorMessage)
+		fmt.Fprintf(w, "%s\n", errorMessage)
 		fmt.Println(errorMessage)
 		return
 	}
-	fmt.Fprintf(w, "Aktuelles Verzeichnis: %s", pwdOutput)
+
+	fmt.Fprintf(w, "Aktuelles Verzeichnis: %s\n", pwdOutput)
 	fmt.Println("Aktuelles Verzeichnis: " + string(pwdOutput))
 
 	output, err := cmd.CombinedOutput()
 	if err != nil {
 		errorMessage := fmt.Sprintf("Fehler bei der Befehlsausführung: %s", err)
-		fmt.Fprintln(w, errorMessage)
+		fmt.Fprintf(w, "%s\n", errorMessage)
 		fmt.Println(errorMessage)
 		return
 	}
-	outputMessage := fmt.Sprintf("Befehl erfolgreich ausgeführt. Ausgabe:\n%s", output)
-	fmt.Fprintln(w, outputMessage)
+
+	outputMessage := fmt.Sprintf("Befehl erfolgreich ausgeführt. Ausgabe:\n%s\n", output)
+	fmt.Fprintf(w, "%s\n", outputMessage)
 	fmt.Println(outputMessage)
 }
 
-// Handler für den Stop des Java-Minecraft-Servers
 func handleClose(w http.ResponseWriter, r *http.Request) {
 	cmd := exec.Command("killall", "java")
 
 	output, err := cmd.CombinedOutput()
 	if err != nil {
 		errorMessage := fmt.Sprintf("Fehler bei der Befehlsausführung: %s", err)
-		fmt.Fprintln(w, errorMessage)
+		fmt.Fprintf(w, "%s\n", errorMessage)
 		fmt.Println(errorMessage)
 		return
 	}
-	outputMessage := fmt.Sprintf("Befehl 'killall java' erfolgreich ausgeführt. Ausgabe:\n%s", output)
-	fmt.Fprintln(w, outputMessage)
+
+	outputMessage := fmt.Sprintf("Befehl 'killall java' erfolgreich ausgeführt. Ausgabe:\n%s\n", output)
+	fmt.Fprintf(w, "%s\n", outputMessage)
 	fmt.Println(outputMessage)
 }
 
-// Handler für den Test-Endpunkt
 func handleTest(w http.ResponseWriter, r *http.Request) {
-	testMessage := fmt.Sprintf("Test erfolgreich, der Go-Server läuft!")
-	fmt.Fprintln(w, testMessage)
-	fmt.Println(testMessage)
+	status, err := checkMinecraftServerStatus()
+	if err != nil {
+		testMessage := "Test erfolgreich, der Go-Server läuft, aber der Minecraft-Server ist nicht aktiv."
+		fmt.Fprintf(w, "%s\n", testMessage)
+		fmt.Println(testMessage)
+		errorMessage := fmt.Sprintf("Fehler beim Überprüfen des Minecraft-Serverstatus: %s", err)
+		fmt.Fprintf(w, "%s\n", errorMessage)
+		fmt.Println(errorMessage)
+	} else if status {
+		testMessage := "Test erfolgreich, der Go-Server läuft und der Minecraft-Server ist aktiv."
+		fmt.Fprintf(w, "%s\n", testMessage)
+		fmt.Println(testMessage)
+	}
 }
 
-// Handler für den Upload-Endpunkt
+func checkMinecraftServerStatus() (bool, error) {
+	cmd := exec.Command("pgrep", "-f", "minecraft_server.jar")
+	output, err := cmd.CombinedOutput()
+	if err != nil {
+		return false, err
+	}
+
+	return len(output) > 0, nil
+}
+
 func handleUpload(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprintf(w, "Datei-Upload")
+	fmt.Fprintf(w, "Datei-Upload\n")
 }
 
-// Handler für den Download-Endpunkt
 func handleDownload(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprintf(w, "Datei-Download")
+	fmt.Fprintf(w, "Datei-Download\n")
 }
 
 func handleTerminate(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprintf(w, "Server wird heruntergefahren")
+	fmt.Fprintf(w, "Server wird heruntergefahren\n")
 	shutdownServer()
-	fmt.Fprintf(w, "Server erfolgreich heruntergefahren")
+	fmt.Fprintf(w, "Server erfolgreich heruntergefahren\n")
 }
 
-// Warten auf das Herunterfahren des Servers
 func waitForShutdown(server *http.Server) {
 	stopChan := make(chan os.Signal, 1)
 	signal.Notify(stopChan, os.Interrupt, syscall.SIGTERM)
@@ -134,7 +149,6 @@ func waitForShutdown(server *http.Server) {
 	shutdownServer()
 }
 
-// Herunterfahren des Servers
 func shutdownServer() {
 	var message = "Server erfolgreich heruntergefahren"
 	fmt.Println(message)

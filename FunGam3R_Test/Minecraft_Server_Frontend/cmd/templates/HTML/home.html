@@ -4,40 +4,15 @@
 <head>
     <title>Home</title>
     <script src="/JS/messages.js"></script>
+    <script src="/JS/communicateServer.js"></script>
     <script>
         function startMinecraft() {
-            fetch('/start', { method: 'GET' })
-                .then(function (response) {
-                    if (response.ok) {
-                        return response.text(); // Server-Antwort als Text zurückgeben
-                    } else {
-                        throw new Error('Error retrieving server response.');
-                    }
-                })
-                .then(function (responseText) {
-                    addMessage(responseText); // Server-Antwort zur Nachrichtenliste hinzufügen
-                })
-                .catch(function (error) {
-                    addMessage('An error occurred: ' + error);
-                });
+            sendRequest('/start');
         }
 
         function stopMinecraft() {
-                fetch('/stop', { method: 'GET' })
-                    .then(function (response) {
-                        if (response.ok) {
-                            return response.text(); // Server-Antwort als Text zurückgeben
-                        } else {
-                            throw new Error('Error retrieving server response.');
-                        }
-                    })
-                    .then(function (responseText) {
-                        addMessage(responseText); // Server-Antwort zur Nachrichtenliste hinzufügen
-                    })
-                    .catch(function (error) {
-                        addMessage('An error occurred: ' + error);
-                    });
-            }
+            sendRequest('/stop');
+        }
     </script>
 </head>
 
