@@ -27,6 +27,9 @@ func main() {
 	// Handler für den Start des Java-Befehls des Minecraft Servers
 	mux.HandleFunc("/start", handleStartUp)
 
+	// Handler für den Stop des Java-Minecraft Servers
+	mux.HandleFunc("/stop", handleClose)
+
 	// Handler für den Test-Endpunkt
 	mux.HandleFunc("/test", handleTest)
 
@@ -58,27 +61,51 @@ func main() {
 func handleStartUp(w http.ResponseWriter, r *http.Request) {
 	pwd := exec.Command("pwd")
 	cmd := exec.Command("java", "-Xms1024M", "-Xmx1024M", "-jar", "/opt/minecraft/minecraft_server.jar", "nogui")
-	cmd.Dir = "/opt/minecraft" // Arbeitsverzeichnis festlegen
+	cmd.Dir = "/opt/minecraft"
 
-	pwd_output, pwd_err := pwd.Output()
-	if pwd_err != nil {
-		fmt.Fprintf(w, "Kein Verzeichnis? %s", pwd_err)
+	pwdOutput, pwdErr := pwd.Output()
+	if pwdErr != nil {
+		errorMessage := fmt.Sprintf("Fehler beim Ausführen des 'pwd'-Befehls: %s", pwdErr)
+		fmt.Fprintln(w, errorMessage)
+		fmt.Println(errorMessage)
 		return
 	}
-	fmt.Fprintf(w, "Du bist im Verzeichnis: %s", pwd_output)
+	fmt.Fprintf(w, "Aktuelles Verzeichnis: %s", pwdOutput)
+	fmt.Println("Aktuelles Verzeichnis: " + string(pwdOutput))
 
-	output, err := cmd.Output()
+	output, err := cmd.CombinedOutput()
 	if err != nil {
-		fmt.Fprintf(w, "Fehler bei der Befehlsausführung: %s", err)
+		errorMessage := fmt.Sprintf("Fehler bei der Befehlsausführung: %s", err)
+		fmt.Fprintln(w, errorMessage)
+		fmt.Println(errorMessage)
 		return
 	}
+	outputMessage := fmt.Sprintf("Befehl erfolgreich ausgeführt. Ausgabe:\n%s", output)
+	fmt.Fprintln(w, outputMessage)
+	fmt.Println(outputMessage)
+}
 
-	fmt.Fprintf(w, "Befehl erfolgreich ausgeführt. Ausgabe:\n%s", output)
+// Handler für den Stop des Java-Minecraft-Servers
+func handleClose(w http.ResponseWriter, r *http.Request) {
+	cmd := exec.Command("killall", "java")
+
+	output, err := cmd.CombinedOutput()
+	if err != nil {
+		errorMessage := fmt.Sprintf("Fehler bei der Befehlsausführung: %s", err)
+		fmt.Fprintln(w, errorMessage)
+		fmt.Println(errorMessage)
+		return
+	}
+	outputMessage := fmt.Sprintf("Befehl 'killall java' erfolgreich ausgeführt. Ausgabe:\n%s", output)
+	fmt.Fprintln(w, outputMessage)
+	fmt.Println(outputMessage)
 }
 
 // Handler für den Test-Endpunkt
 func handleTest(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprintf(w, "Test erfolgreich, der Go-Server läuft!")
+	testMessage := fmt.Sprintf("Test erfolgreich, der Go-Server läuft!")
+	fmt.Fprintln(w, testMessage)
+	fmt.Println(testMessage)
 }
 
 // Handler für den Upload-Endpunkt

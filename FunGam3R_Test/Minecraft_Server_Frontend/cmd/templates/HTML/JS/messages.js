@@ -18,3 +18,7 @@ function displayMessages() {
     output.innerHTML += '<p>' + messages[i] + '</p>';
   }
 }
+
+setInterval(function () {
+  displayMessages();
+}, 1000);
