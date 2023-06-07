@@ -5,15 +5,11 @@
     <title>Informations</title>
     <script src="/JS/messages.js"></script>
     <script src="/JS/communicateServer.js"></script>
+    <script src="/JS/importCommon.js"></script>
 </head>
 
-<body>
-    <div class="navbar">
-        <a class="button" href="/server_test.html">Test Server</a>
-        <a class="button" href="/">Home</a>
-        <a class="button" href="/info.html">Informations</a>
-        <a class="button-red" href="/shutdown.html">Shutdown</a>
-    </div>
+<body onload="inizializingPage()">
+    <div id="navbar"></div>
 
     <div class="content">
         <div class="card1">
@@ -27,6 +23,8 @@
             <div id="output"></div>
         </div>
     </div>
+    
+    <div id="footer"></div>
 </body>
 
 </html>
