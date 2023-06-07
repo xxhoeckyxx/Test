@@ -12,7 +12,7 @@ import (
 
 const (
 	port         = ":8080"
-	memorySize   = "1024M"
+	memorySize   = "8192M"
 	serverJar    = "/opt/minecraft/minecraft_server.jar"
 	templatesDir = "./cmd/templates/HTML"
 )
