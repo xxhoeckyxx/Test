@@ -11,9 +11,9 @@ import (
 )
 
 const (
-	port        = ":8080"
-	memorySize  = "1024M"
-	serverJar   = "/opt/minecraft/minecraft_server.jar"
+	port         = ":8080"
+	memorySize   = "1024M"
+	serverJar    = "/opt/minecraft/minecraft_server.jar"
 	templatesDir = "./cmd/templates/HTML"
 )
 
@@ -25,6 +25,7 @@ func main() {
 	mux.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 		handleRoot(w, r, fs)
 	})
+	mux.HandleFunc("/styles.css", serveCSS)
 	mux.HandleFunc("/start", handleStartUp)
 	mux.HandleFunc("/stop", handleClose)
 	mux.HandleFunc("/test", handleTest)
@@ -44,6 +45,11 @@ func main() {
 	}()
 
 	waitForShutdown(server)
+}
+
+func serveCSS(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Type", "text/css; charset=utf-8")
+	http.ServeFile(w, r, "./cmd/templates/HTML/CSS/styles.css")
 }
 
 func handleRoot(w http.ResponseWriter, r *http.Request, fs http.Handler) {
