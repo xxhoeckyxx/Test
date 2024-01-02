@@ -3,6 +3,11 @@
 .dist
 .DS_Store
 
+# C++ Compiled
+.dep~
+*.o
+a.out
+
 # C Compiled
 xxhoeckyxx_Test/build
 RocksGam3R_Test/build
