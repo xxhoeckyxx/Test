@@ -14,7 +14,7 @@ FunGam3R_Test/build
 Purpl3Umbr3lla_Test/build
 *.i
 *.o
-*.s
+
 
 # CSS Sheet
 xxhoeckyxx_Test/Go-Fileserver/templates/android-style.css
