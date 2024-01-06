@@ -1,6 +1,6 @@
 # Enter here BIN-name and sources #
 BIN     = a.out
-SOURCE  = SubstitionCipherA.cpp
+SOURCE  = SubstitionCipherA_ChatGPT.cpp
 ###################################
 
 OBJF    = $(SOURCE:%.cpp=%.o)
