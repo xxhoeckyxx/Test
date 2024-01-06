@@ -5,7 +5,7 @@
 
 # C++ Compiled
 .dep~
-a.out
+*.out
 
 # C Compiled
 xxhoeckyxx_Test/build
@@ -15,6 +15,8 @@ Purpl3Umbr3lla_Test/build
 *.i
 *.o
 
+# Text Files
+*.txt
 
 # CSS Sheet
 xxhoeckyxx_Test/Go-Fileserver/templates/android-style.css
