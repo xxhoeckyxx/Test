@@ -59,7 +59,7 @@ int main(int argc, char *argv[])
     SubstitutionCipherA::bruteForce(cipher);
 
     // std::string cipher = "Mgp kscqqcl ysq bcl Vcfjcpl ylbcpcp jcplcl; bcll ugp jczcl lgafr jylec eclse, sk yjjc Vcfjcp qcjzcp xs kyafcl.(Ujcylmp Hmmqctcjr)";
-    // std::string cipher = "Lqxhu Lehju iydt dysxj yccuh isxeud.Hsxeudu Lehju iydt dysxj yccuh mqxh.(Aqepy)""
+    // std::string cipher = "Lqxhu Lehju iydt dysxj yccuh isxeud.Hsxeudu Lehju iydt dysxj yccuh mqxh.(Aqepy)";
     // SubstitutionCipherA::bruteForce("Ll");
 
     return 0;
