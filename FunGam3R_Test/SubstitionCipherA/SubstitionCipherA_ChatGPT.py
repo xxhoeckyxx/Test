@@ -8,14 +8,19 @@ class SubstitutionCipherA:
     def decrypt(cipher, offset):
         decrypted_text = ""
         for c in cipher:
-            # Wenn es sich um einen Buchstaben handelt, verschiebe ihn entsprechend
+            lower_offset = (26 + (-2 * offset)) % 26
+            upper_offset = (26 + (3 * offset)) % 26
+
             if c.isalpha():
-                base = 'a' if c.islower() else 'A'  # Basis des Alphabets (klein oder groß)
-                decrypted_char = chr(((ord(c) - ord(base) - offset + 26) % 26) + ord(base))  # Entschlüsselung
+                if c.islower():
+                    decrypted_char = chr((ord(c) - ord('a') + lower_offset) % 26 + ord('a'))
+                else:
+                    decrypted_char = chr((ord(c) - ord('A') + upper_offset) % 26 + ord('A'))
+
                 decrypted_text += decrypted_char
             else:
-                # Behalte nicht-alphabetische Zeichen unverändert bei
                 decrypted_text += c
+
         return decrypted_text
 
     @staticmethod
