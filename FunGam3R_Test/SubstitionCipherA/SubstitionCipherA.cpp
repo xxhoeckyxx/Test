@@ -9,7 +9,7 @@ public:
         // Methode zum Entschlüsseln von Sätzen mit vorgegebenem Offset (Chiffrat)
 
         std::string decryptedString;
-        for (size_t i = 0; i < cipher.length(); i++)
+        for (int i = 0; i < cipher.length(); i++)
         { // Abarbeiten des eingegebenen Satzes Stück für Stück
             char decryptChar;
             int lower_offset = 26 + (-2 * offset) % 26;

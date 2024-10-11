@@ -5,7 +5,7 @@ class SubstitutionCipherA {
 public:
     static std::string decrypt(const std::string &cipher, int offset) {
         std::string decryptedString;
-        for (size_t i = 0; i < cipher.length(); i++) {
+        for (int i = 0; i < cipher.length(); i++) {
             char decryptChar;
             int lower_offset = 26 + (-2 * offset) % 26;
             int upper_offset = 26 + (3 * offset) % 26;
